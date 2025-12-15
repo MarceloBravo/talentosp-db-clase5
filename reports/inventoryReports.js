@@ -150,8 +150,8 @@ class InventoryReports {
           valor_vendido,
           ROUND((valor_vendido / total_valor) * 100, 2) AS porcentaje_valor,
           CASE
-            WHEN SUM(porcentaje_valor) OVER (ORDER BY valor_vendido DESC) <= 80 THEN 'A'
-            WHEN SUM(porcentaje_valor) OVER (ORDER BY valor_vendido DESC) <= 95 THEN 'B'
+            WHEN SUM(ROUND((valor_vendido / total_valor) * 100, 2)) OVER (ORDER BY valor_vendido DESC) <= 80 THEN 'A'
+            WHEN SUM(ROUND((valor_vendido / total_valor) * 100, 2)) OVER (ORDER BY valor_vendido DESC) <= 95 THEN 'B'
             ELSE 'C'
           END AS clasificacion_abc
         FROM ranking

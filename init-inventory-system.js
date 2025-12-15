@@ -3,6 +3,7 @@ const mysql = require('mysql2/promise');
 const fs = require('fs');
 const path = require('path');
 const InventoryReports = require('./reports/inventoryReports');
+require('dotenv').config();
 
 async function inicializarSistemaInventario() {
   let connection;
@@ -18,15 +19,17 @@ async function inicializarSistemaInventario() {
       multipleStatements: true
     });
 
-    // Crear base de datos
-    await connection.execute('CREATE DATABASE IF NOT EXISTS sistema_inventario');
-    await connection.execute('USE sistema_inventario');
+    // Crear base de datos (usar query en lugar de execute para evitar prepared statements)
+    await connection.query('CREATE DATABASE IF NOT EXISTS sistema_inventario');
+    await connection.query('USE sistema_inventario');
 
-    // Leer y ejecutar esquema
+    // Leer y ejecutar esquema completo (múltiples sentencias)
     const schemaPath = path.join(__dirname, 'schema-inventario.sql');
     const schemaSQL = fs.readFileSync(schemaPath, 'utf8');
-    await connection.execute(schemaSQL);
-
+    // IMPORTANTE: usar query en lugar de execute porque el esquema contiene
+    // múltiples sentencias y DDL no soportado por el protocolo de prepared statements
+    await connection.query(schemaSQL);
+    
     console.log('✅ Base de datos creada');
 
     // Insertar datos de ejemplo

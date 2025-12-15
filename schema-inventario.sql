@@ -1,5 +1,6 @@
 -- Base de datos del sistema de inventario
-CREATE DATABASE IF NOT EXISTS sistema_inventario;
+DROP DATABASE IF EXISTS sistema_inventario;
+CREATE DATABASE sistema_inventario;
 USE sistema_inventario;
 
 -- Tabla de categorías (jerarquía)
