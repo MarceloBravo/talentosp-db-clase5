@@ -10,6 +10,15 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
+// Servir archivos estáticos desde la carpeta 'views'
+app.use(express.static('views'));
+
+// Ruta para servir la página principal
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/views/index.html');
+});
+
+
 // Configuración de base de datos
 const dbConfig = {
   host: process.env.DB_HOST || 'localhost',

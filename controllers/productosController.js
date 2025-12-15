@@ -237,12 +237,12 @@ class ProductosController {
     // Actualizar stock de producto
     async actualizarStock(req, res) {
       const connection = await this.db.getConnection();
-  
       try {
         await connection.beginTransaction();
   
         const { id } = req.params;
-        const { cantidad, tipo_movimiento_id, referencia, notas } = req.body;
+        console.log('BODY = ',req.body);
+        const { cantidad, tipo_movimiento_id, referencia = null, notas = null } = req.body;
   
         // Obtener stock actual
         const [productos] = await connection.execute(

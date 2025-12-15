@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Inventario</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Gestión de Inventario</h1>
+
+        <!-- Sección de Dashboard (futuro) -->
+        <section id="dashboard">
+            <h2>Dashboard</h2>
+            <div id="dashboard-content"></div>
+        </section>
+
+        <!-- Sección para Listar Productos -->
+        <section id="listar-productos">
+            <h2>Lista de Productos</h2>
+            <div class="filters">
+                <input type="text" id="busqueda" placeholder="Buscar por nombre, código...">
+                <button onclick="cargarProductos()">Buscar y Recargar</button>
+            </div>
+            <table id="tabla-productos">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Stock Actual</th>
+                        <th>Precio Venta</th>
+                        <th>Categoría</th>
+                        <th>Proveedor</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Filas de productos se cargarán aquí -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Sección para Crear Producto -->
+        <section id="crear-producto">
+            <h2>Crear Nuevo Producto</h2>
+            <form id="form-crear-producto">
+                <input type="text" name="codigo" placeholder="Código único" required>
+                <input type="text" name="nombre" placeholder="Nombre del producto" required>
+                <textarea name="descripcion" placeholder="Descripción"></textarea>
+                <input type="number" name="precio_compra" placeholder="Precio de Compra" step="0.01">
+                <input type="number" name="precio_venta" placeholder="Precio de Venta" step="0.01" required>
+                <input type="number" name="stock_actual" placeholder="Stock Inicial" value="0">
+                <input type="number" name="stock_minimo" placeholder="Stock Mínimo" value="10">
+                <select name="categoria_id"></select>
+                <select name="proveedor_id"></select>
+                <button type="submit">Crear Producto</button>
+            </form>
+        </section>
+
+        <!-- Sección para Crear Orden de Compra -->
+        <section id="crear-orden">
+            <h2>Crear Orden de Compra</h2>
+            <form id="form-crear-orden">
+                <div class="orden-header">
+                    <select name="proveedor_id" required></select>
+                    <textarea name="notas" placeholder="Notas para la orden"></textarea>
+                </div>
+                <div id="productos-orden">
+                    <!-- Contenedor para agregar productos a la orden -->
+                </div>
+                <div>
+                    <button type="button" onclick="agregarProductoAOrden()">Añadir Producto a la Orden</button>
+                    <button type="submit">Crear Orden</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Modal para Actualizar Stock -->
+        <div id="modal-stock" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close" onclick="cerrarModalStock()">&times;</span>
+                <h2>Actualizar Stock</h2>
+                <form id="form-actualizar-stock">
+                    <input type="hidden" name="producto_id">
+                    <p>Producto: <strong id="modal-nombre-producto"></strong></p>
+                    <input type="number" name="cantidad" placeholder="Cantidad a añadir/restar" required>
+                    <select name="tipo_movimiento_id" required>
+                        <!-- Opciones se cargarán desde la DB, hardcodeadas por ahora -->
+                        <option value="1">1 - Venta</option>
+                        <option value="2">2 - Devolución de Cliente</option>
+                        <option value="3">3 - Ajuste Negativo</option>
+                        <option value="4">4 - Ajuste Positivo</option>
+                        <option value="5">5 - Recepción de Compra</option>
+                    </select>
+                    <input type="text" name="referencia" placeholder="Referencia (ej: Venta #123)">
+                    <button type="submit">Actualizar</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
