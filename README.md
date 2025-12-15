@@ -6,7 +6,7 @@ Funcionalidades principales:
 
 ✅ Gestión de productos con categorías
 ✅ Control de stock y alertas de inventario bajo
-✅ Seguimiento de movimientos de inventario
+✅ Seguimiento de movimientos de inventari
 ✅ Gestión de proveedores y compras
 ✅ Reportes de inventario y ventas
 ✅ API REST completa para integración
@@ -21,6 +21,15 @@ Proveedores (información de contacto, productos suministrados)
 Movimientos de inventario (entradas, salidas, ajustes)
 Órdenes de compra (pedidos a proveedores)
 Alertas de inventario (productos con stock bajo)
+
+variables de enorno del archivo .env (ajustar los valores):
+
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=
+DB_NAME=sistema_inventario
+NODE_ENV=development
+PORT=3000
 
 ### Extiende el sistema de inventario agregando: 
 - órdenes de compra con proveedores, 
