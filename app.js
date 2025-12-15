@@ -3,6 +3,7 @@ const express = require('express');
 const mysql = require('mysql2/promise');
 const dotenv = require('dotenv');
 const ProductosController = require('./controllers/productosController');
+const OrdenesCompraController = require('./controllers/ordenesCompraController');
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ const pool = mysql.createPool(dbConfig);
 
 // Inicializar controladores
 const productosController = new ProductosController(pool);
+const ordenesCompraController = new OrdenesCompraController(pool);
 
 // Middleware de logging
 app.use((req, res, next) => {
@@ -37,6 +39,9 @@ app.get('/api/productos', productosController.listarProductos.bind(productosCont
 app.get('/api/productos/:id', productosController.obtenerProducto.bind(productosController));
 app.post('/api/productos', productosController.crearProducto.bind(productosController));
 app.patch('/api/productos/:id/stock', productosController.actualizarStock.bind(productosController));
+
+// Rutas de Órdenes de Compra
+app.post('/api/ordenes-compra', ordenesCompraController.crearOrdenCompra.bind(ordenesCompraController));
 
 // Ruta de dashboard/reportes
 app.get('/api/dashboard', async (req, res) => {

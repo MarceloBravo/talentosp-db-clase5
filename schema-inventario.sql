@@ -94,7 +94,7 @@ CREATE TABLE ordenes_compra (
   id INT PRIMARY KEY AUTO_INCREMENT,
   numero_orden VARCHAR(50) UNIQUE NOT NULL,
   proveedor_id INT NOT NULL,
-  fecha_orden DATE NOT NULL,
+  fecha_orden DATE NOT NULL DEFAULT (CURRENT_DATE),
   fecha_entrega_esperada DATE,
   fecha_entrega_real DATE,
   estado ENUM('pendiente', 'parcial', 'completa', 'cancelada') DEFAULT 'pendiente',
@@ -116,7 +116,7 @@ CREATE TABLE detalle_ordenes_compra (
   cantidad_solicitada INT NOT NULL,
   cantidad_recibida INT DEFAULT 0,
   precio_unitario DECIMAL(10,2) NOT NULL,
-  subtotal DECIMAL(10,2) NOT NULL,
+  subtotal DECIMAL(10,2) NOT NULL DEFAULT 0.00,
   
   FOREIGN KEY (orden_compra_id) REFERENCES ordenes_compra(id) ON DELETE CASCADE,
   FOREIGN KEY (producto_id) REFERENCES productos(id),
