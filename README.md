@@ -4,32 +4,33 @@ Análisis de requisitos y diseño de la base de datos para un sistema de inventa
 ### Requisitos del Sistema
 Funcionalidades principales:
 
-✅ Gestión de productos con categorías
-✅ Control de stock y alertas de inventario bajo
-✅ Seguimiento de movimientos de inventari
-✅ Gestión de proveedores y compras
-✅ Reportes de inventario y ventas
-✅ API REST completa para integración
-✅ Interfaz de usuario básica
+✅ Gestión de productos con categorías  
+✅ Control de stock y alertas de inventario bajo  
+✅ Seguimiento de movimientos de inventario    
+✅ Gestión de proveedores y compras  
+✅ Reportes de inventario y ventas  
+✅ API REST completa para integración  
+✅ Interfaz de usuario básica  
 
 
 ### Entidades principales:
 
-Productos (con categorías, proveedores, stock)
-Categorías (jerarquía de productos)
-Proveedores (información de contacto, productos suministrados)
-Movimientos de inventario (entradas, salidas, ajustes)
-Órdenes de compra (pedidos a proveedores)
-Alertas de inventario (productos con stock bajo)
+Productos (con categorías, proveedores, stock)  
+Categorías (jerarquía de productos)  
+Proveedores (información de contacto, productos suministrados)  
+Movimientos de inventario (entradas, salidas, ajustes)  
+Órdenes de compra (pedidos a proveedores)  
+Alertas de inventario (productos con stock bajo)  
+
 
 variables de enorno del archivo .env (ajustar los valores):
 
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=
-DB_NAME=sistema_inventario
-NODE_ENV=development
-PORT=3000
+DB_HOST=localhost  
+DB_USER=root  
+DB_PASSWORD=  
+DB_NAME=sistema_inventario  
+NODE_ENV=development  
+PORT=3000  
 
 ### Extiende el sistema de inventario agregando: 
 - órdenes de compra con proveedores, 
