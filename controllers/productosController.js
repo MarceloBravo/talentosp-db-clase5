@@ -1,4 +1,6 @@
 // controllers/productosController.js
+const { verificarYNotificarStockBajo } = require('../services/alertaStockService');
+
 class ProductosController {
     constructor(db) {
       this.db = db;
@@ -208,6 +210,10 @@ class ProductosController {
   
         await connection.commit();
   
+        // No esperamos a que la notificación se envíe para responder al cliente.
+        // Se ejecuta de forma asíncrona.
+        verificarYNotificarStockBajo(this.db, productoId);
+  
         res.status(201).json({
           message: 'Producto creado exitosamente',
           producto: {
@@ -271,6 +277,9 @@ class ProductosController {
         `, [id, tipo_movimiento_id, cantidad, stockActual, nuevoStock, referencia, notas]);
   
         await connection.commit();
+  
+        // Verificar stock bajo después de la actualización, no bloquea la respuesta.
+        verificarYNotificarStockBajo(this.db, id);
   
         res.json({
           message: 'Stock actualizado exitosamente',
