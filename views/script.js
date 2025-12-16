@@ -152,7 +152,6 @@ async function actualizarStock(event) {
     const formData = new FormData(form);
     const body = Object.fromEntries(formData.entries());
     const productoId = body.producto_id;
-    debugger;
     // El tipo de movimiento de venta (1) y ajuste negativo (3) deben ser negativos
     let cantidad = parseFloat(body.cantidad);
     if (['1', '3'].includes(body.tipo_movimiento_id)) {
@@ -192,7 +191,6 @@ async function crearOrdenDeCompra(event) {
     const form = event.target;
     const proveedor_id = form.querySelector('[name="proveedor_id"]').value;
     const notas = form.querySelector('[name="notas"]').value;
-    debugger;
     const productos = [];
     const items = form.querySelectorAll('.producto-item');
     for (const item of items) {
@@ -215,7 +213,6 @@ async function crearOrdenDeCompra(event) {
     }
 
     const body = { proveedor_id: parseInt(proveedor_id), notas, productos };
-    debugger;
     const result = await postData('/ordenes-compra', body);
     if (result) {
         alert(`Orden de compra #${result.orden_id} creada exitosamente!`);
@@ -240,7 +237,6 @@ function cerrarModalStock() {
 let productoOptionsCache = null;
 async function agregarProductoAOrden() {
     const container = document.getElementById('productos-orden');
-    //debugger;
     if (!productoOptionsCache) {
         const data = await fetchData('/productos?limite=1000'); // Cargar todos los productos
         if (data && data.productos) {
@@ -262,6 +258,48 @@ async function agregarProductoAOrden() {
         </div>
     `;
     container.appendChild(div);
+}
+
+
+//Busqueda por codigo de barras
+async function buscarPorCodigoDeBarras(){
+    const codigo = document.getElementById('input_codigo_barras').value.trim();
+    if(!codigo){
+        alert('Ingrese un código de barras.');
+        return;
+    }
+    const resultadoDiv = document.getElementById('resultado-codigo-barras');
+    resultadoDiv.innerHTML = '';
+
+    try{
+        const response = await fetch(`${API_URL}/productos/codigo_barras/${codigo}`);
+        if(!response.ok){
+            throw new Error('Error HTTP: ' + response.status);            
+        }
+
+        const data = await response.json();
+        if(data.producto && data.producto.length > 0){                        
+            const producto = data.producto[0]
+            resultadoDiv.innerHTML = ` 
+            <div>
+                <strong>ID:</strong> ${producto.id || ''} <br>
+                <strong>Código:</strong> ${producto.codigo || ''} <br>
+                <strong>Nombre:</strong> ${producto.nombre || ''} <br>
+                <strong>Descripción:</strong> ${producto.descripcion || ''} <br>
+                <strong>Categoría:</strong> ${producto.categoria_nombre || ''} <br>
+                <strong>Proveedor:</strong> ${producto.proveedor_nombre || ''} <br>
+                <strong>Precio Compra:</strong> $${parseFloat(producto.precio_compra || '').toFixed(2)} <br>
+                <strong>Precio Venta:</strong> $${parseFloat(producto.precio_venta || '').toFixed(2)} <br>
+                <strong>Stock Actual:</strong> ${producto.stock_actual || ''} <br>
+            </div>
+            `;
+        }else{
+            alert('Producto no encontrado o inexistente.')
+        }
+    }catch(error){
+        console.log('Error buscando producto por código de barras:', error);
+        alert('Error al buscar el producto por código de barras. Verifique la consola.');
+    }
 }
 
 // Cerrar modal si se hace clic fuera del contenido

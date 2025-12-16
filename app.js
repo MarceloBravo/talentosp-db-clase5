@@ -49,6 +49,9 @@ app.get('/api/productos/:id', productosController.obtenerProducto.bind(productos
 app.post('/api/productos', productosController.crearProducto.bind(productosController));
 app.patch('/api/productos/:id/stock', productosController.actualizarStock.bind(productosController));
 
+//Ruta de codigo de barras
+app.get('/api/productos/codigo_barras/:codigo', productosController.obtenerProductoPorCodigoDeBarras.bind(productosController));
+
 // Rutas de Órdenes de Compra
 app.post('/api/ordenes-compra', ordenesCompraController.crearOrdenCompra.bind(ordenesCompraController));
 

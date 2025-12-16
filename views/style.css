@@ -30,6 +30,20 @@ body {
     padding: 20px;
 }
 
+#txt-codigo_barras{
+    width: 300px;
+    height: 40px;
+    font-size: 1.2em;
+    padding: 5px 10px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+}
+
+#resultado-codigo-barras{
+    display: flex
+}
+
 h1, h2 {
     color: var(--dark-color);
     margin-bottom: 20px;

@@ -297,6 +297,34 @@ class ProductosController {
         connection.release();
       }
     }
+
+    //Obtener producto por código de barras
+    async obtenerProductoPorCodigoDeBarras(req, res){
+      try{
+        const { codigo } = req.params;
+        const productos = await this.db.query(`
+          SELECT
+           p.*,
+           c.nombre as categoria_nombre,
+           pr.nombre as proveedor_nombre
+          FROM productos p
+          LEFT JOIN categorias c ON p.categoria_id = c.id 
+          LEFT JOIN proveedores pr ON p.proveedor_id = pr.id 
+          WHERE p.codigo_barras = ?`
+          , [codigo]);
+
+          if(productos.length === 0){
+            return res.status(404).json({error: 'Producto no encontrado'});
+          }
+
+          res.json({
+            producto:productos[0]
+          });
+      }catch(error){
+        console.log('Error obteniendo producto por código de barras:', error);
+        return res.status(500).json({error: 'Error interno del servidor'});
+      }
+    }
   
     // Método helper para construir WHERE clause
     getWhereClause(activo, categoria, proveedor, stockBajo, busqueda) {
