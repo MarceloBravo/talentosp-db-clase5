@@ -4,6 +4,9 @@ const mysql = require('mysql2/promise');
 const dotenv = require('dotenv');
 const ProductosController = require('./controllers/productosController');
 const OrdenesCompraController = require('./controllers/ordenesCompraController');
+const IntegracionController = require('./controllers/integracionController');
+const IntegracionService = require('./services/integracionService');
+const apiKeyAuth = require('./middleware/authMiddleware');
 
 dotenv.config();
 
@@ -33,15 +36,25 @@ const dbConfig = {
 // Crear pool de conexiones
 const pool = mysql.createPool(dbConfig);
 
-// Inicializar controladores
+// Inicializar controladores y servicios
 const productosController = new ProductosController(pool);
 const ordenesCompraController = new OrdenesCompraController(pool);
+
+const integracionService = new IntegracionService(pool);
+const integracionController = new IntegracionController(integracionService);
+
 
 // Middleware de logging
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
   next();
 });
+
+// Rutas de Integración (protegidas por API Key)
+app.use('/api/integracion', apiKeyAuth);
+app.get('/api/integracion/productos', integracionController.getAllProducts.bind(integracionController));
+app.put('/api/integracion/productos/stock', integracionController.updateStock.bind(integracionController));
+
 
 // Rutas de productos
 app.get('/api/productos', productosController.listarProductos.bind(productosController));
